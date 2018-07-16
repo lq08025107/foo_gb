@@ -1,0 +1,3 @@
+GET https://walletgateway.gxb.io/miner/dyf2PTlX8I8IUVeU4QG034113880/mine/400434196/v2 HTTP/1.1
+
+

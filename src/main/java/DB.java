@@ -70,10 +70,29 @@ public class DB {
             e.printStackTrace();
         }
     }
+
+    public String getNickName(Connection connection, String userID) {
+        String nickName = null;
+        String sql = "select nick_name from whitelist where user_id='" + userID + "'";
+        PreparedStatement pstmt;
+        try {
+            pstmt = (PreparedStatement)connection.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next()){
+                nickName = rs.getString(1);
+            }
+
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nickName;
+    }
     public static void main(String[] args) throws SQLException {
         DB db = new DB();
         Connection connection = db.getConnection();
         List<String> result = db.getwhitelist(connection);
+        db.getNickName(connection, "1f9pqoVcZBVOpai658l004764");
         System.out.println("");
     }
 }

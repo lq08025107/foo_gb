@@ -113,7 +113,7 @@ public class GXB {
                 String mineUrl = Util.Mine_Pre + Util.My_User_Id + Util.Mine + String.valueOf(id) + Util.V2;
                 String mineResultString = GxbHttp.GET(mineUrl);
                 MineResult mineResult = gson.fromJson(mineResultString, MineResult.class);
-                System.out.println("收取自己的 " + symbol + mineResult.getData().getDrawAmount() + "个");
+                LOGGER.info("收取自己的 " + symbol + " " +mineResult.getData().getDrawAmount() + " 个");
             }
 
         }
@@ -168,15 +168,12 @@ public class GXB {
                 if(fortuneCanSteal == true){
                     try{
                         StealResult stealResult = steal(userIds.get(i), String.valueOf(mineId));
-                        //System.out.println(stealResult.getData().getStealAmount());
-                        System.out.println(new Date() + "  偷取用户  " + userIds.get(i) + " 的 " + symbol + " " + stealResult.getData().getStealAmount() + " 个");
+                        LOGGER.info("偷取用户  " + db.getNickName(connection, userIds.get(i)) + " 的 " + symbol + " " + stealResult.getData().getStealAmount() + " 个");
                     } catch (Exception e){
                         //System.out.println("财富可偷，但User不可偷");
                         db.deletewhitelist(connection, userIds.get(i));
-                }
-//                    StealResult stealResult = steal(userIds.get(i), String.valueOf(mineId));
-//                    System.out.println(stealResult.getData().getStealAmount());
-//                    System.out.println("偷取用户" + userIds.get(i) + "的" + symbol + " " + stealResult.getData().getStealAmount() + "个");
+                        LOGGER.debug("移除白名单中的 " + db.getNickName(connection, userIds.get(i)) + " 用户");
+                    }
                 }
             }
         }
@@ -187,7 +184,10 @@ public class GXB {
 
         StealUserList stealUserList = getUserList(change, hasLocation);
         List<StealUserList.DataBean.ListBean> userList = stealUserList.getData().getList();
-        if(userList.size() == 0){change = false;}
+        if(stealUserList.getData().getLeftAmount() == 0)
+            change = false;
+        else
+            change = true;
         for(int i =0; i < userList.size(); i++){
             StealUserList.DataBean.ListBean userInfo = userList.get(i);
             String userId = userInfo.getUserId();
@@ -211,7 +211,7 @@ public class GXB {
                     double amount = fortuneInfo.getAmount();
                     if(fortuneCanSteal == true){
                         StealResult stealResult = steal(userId, String.valueOf(mineId));
-                        System.out.println("偷取用户" + nickName + "的" + symbol + " " + stealResult.getData().getStealAmount() + "个");
+                        LOGGER.info("偷取用户  " + nickName + " 的 " + symbol + " " + stealResult.getData().getStealAmount() + " 个");
                         //LOGGER.info("偷取用户" + nickName + "的" + symbol + " " + stealResult.getData().getStealAmount() + "个");
                     }
                 }
@@ -247,20 +247,15 @@ public class GXB {
         while(true){
             try{
                 gxb.insertWhileList();
-                System.out.println("扫描完成");
 
-                System.out.println("开始采集");
                 gxb.startMine();
 
                 gxb.startStealWhitelist();
-                System.out.println("偷取一次完成");
 
                 gxb.startSteal();
-                System.out.println("偷取最后一个列表完成");
 
-                Thread.sleep(60000);
+                Thread.sleep(1000);
             } catch(Exception e){
-                e.printStackTrace();
                 Thread.sleep(1000);
             }
 

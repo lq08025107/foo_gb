@@ -54,8 +54,8 @@ public class Util {
 
     }
 //?serverTimeZone=UTC"
-    public static final String url="jdbc:mysql://localhost:3306/gxb";
-    public static final String name="com.mysql.jdbc.Driver";
+    public static final String url="jdbc:mysql://10.25.18.9:3306/gxb";
+    public static final String name="com.mysql.cj.jdbc.Driver";
     public static final String user="root";
     public static final String password="sdt108";
 

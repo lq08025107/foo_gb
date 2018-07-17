@@ -34,7 +34,7 @@ public class GxbHttp {
             Response response = call.execute();
             result = response.body().string();
         } catch (IOException e) {
-            LOGGER.error(e);
+            LOGGER.debug(e);
         }
         return result;
     }
@@ -47,7 +47,7 @@ public class GxbHttp {
             Response response = call.execute();
             result = response.body().string();
         } catch (IOException e) {
-            LOGGER.error(e);
+            LOGGER.debug(e);
         }
         return result;
     }

@@ -1,6 +1,34 @@
+import org.apache.log4j.Logger;
+
+import java.io.IOException;
 import java.util.Date;
+import java.util.Properties;
 
 public class Util {
+    public static final Logger LOGGER = Logger.getLogger(Util.class);
+    public static Properties getProperty(){
+        Properties prop = null;
+        try {
+            prop = new Properties();
+            prop.load(Util.class.getResourceAsStream("/conf.properties"));
+
+        } catch (IOException e) {
+            LOGGER.error("check the configuration file");
+        }
+        return prop;
+    }
+
+    public static final String url= getProperty().getProperty("JDBC");
+    public static final String name=getProperty().getProperty("NAME");
+    public static final String user=getProperty().getProperty("USER");
+    public static final String password=getProperty().getProperty("PASSWORD");
+    public static final String db = getProperty().getProperty("DB");
+    public static final String My_User_Id = getProperty().getProperty("MY_USER_ID");
+    public static final String Authorization = getProperty().getProperty("MY_AUTH");
+
+
+
+
     //可偷用户列表前缀
     public static final String Steal_User_List_Pre = "https://walletgateway.gxb.io/miner/steal/user/list/v2?";
     //指定用户前缀
@@ -21,7 +49,7 @@ public class Util {
     public static final String Fortune_List = "/mine/list";
     public static final String Mine = "/mine/";
 
-    public static final String My_User_Id = "dyf2PTlX8I8IUVeU4QG034113880";
+
 
     public static final String ApplicationJson = "application/json";
     public static final String Host = "walletgateway.gxb.io";
@@ -33,7 +61,7 @@ public class Util {
     public static final String Accept = "application/json, text/plain, */*";
     public static final String User_Agent = "Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15F79 (5578685952)";
     public static final String Accept_Language = "zh-CN";
-    public static final String Authorization = "ZHlmMlBUbFg4SThJVVZlVTRRRzAzNDExMzg4MDo0NTI2OFBiQkVuVVE5dzdpcUcxMUc2SDA2Mjg=";
+
     public static final String Referer = "https://blockcity.gxb.io/";
 
     public static final String WhilelistUrl = "https://walletgateway.gxb.io/miner/steal/record/list?pageSize=30";
@@ -54,12 +82,9 @@ public class Util {
 
     }
 //?serverTimeZone=UTC"
-    public static final String url="jdbc:mysql://10.25.18.9:3306/gxb";
-    public static final String name="com.mysql.cj.jdbc.Driver";
-    public static final String user="root";
-    public static final String password="sdt108";
 
-    public static final String  zx_Auth = "akFhQTEyVFZqc0NoOXFsWHhxbjA2NjAyOTI5MjU6MjY3N2JNUExZOHBqZkxyeWFFemQ0VTI0Nzc4";
+
+
 
     public static void main(String[] args){
         System.out.println(new Date().getTime());

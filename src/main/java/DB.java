@@ -31,7 +31,7 @@ public class DB {
     }
 
     public void insertWhitelist(Connection connection, User user) throws SQLException {
-        sql = connection.prepareStatement("replace into whitelist (user_id, nick_name) VALUES("+
+        sql = connection.prepareStatement("replace into " + Util.db + "(user_id, nick_name) VALUES("+
                 "?"+","+"?"
                 +")" );
         sql.setString(1, user.getUserId());
@@ -43,7 +43,7 @@ public class DB {
     public List<String> getwhitelist(Connection connection) {
         //每次都从数据库中取
         List<String> userIds = new ArrayList<String>();
-        String sql = "select * from whitelist";
+        String sql = "select * from " + Util.db;
         PreparedStatement pstmt;
         try {
             pstmt = (PreparedStatement)connection.prepareStatement(sql);
@@ -60,7 +60,7 @@ public class DB {
     }
 
     public void deletewhitelist(Connection connection, String userId){
-        String sql = "delete from whitelist where user_id='" + userId + "'";
+        String sql = "delete from " + Util.db + " where user_id='" + userId + "'";
         PreparedStatement pstmt;
         try {
             pstmt = (PreparedStatement) connection.prepareStatement(sql);
@@ -73,7 +73,7 @@ public class DB {
 
     public String getNickName(Connection connection, String userID) {
         String nickName = null;
-        String sql = "select nick_name from whitelist where user_id='" + userID + "'";
+        String sql = "select nick_name from "+ Util.db +" where user_id='" + userID + "'";
         PreparedStatement pstmt;
         try {
             pstmt = (PreparedStatement)connection.prepareStatement(sql);
